@@ -1,3 +1,6 @@
+package Manager;
+import Entity.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 

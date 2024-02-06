@@ -1,3 +1,5 @@
+package Entity;
+
 import java.util.Objects;
 public class Task {
     protected String name;
@@ -55,7 +57,7 @@ public class Task {
     }
     @Override
     public String toString() {
-        return "Task{" +
+        return "Models.Task{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
