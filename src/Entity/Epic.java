@@ -17,9 +17,9 @@ public class Epic extends Task {
         return subtaskId;
     }
 
-
     public void addSubtaskId(Integer id) {
-        subtaskId.add(id);
+        if (!getId().equals(id))
+                subtaskId.add(id);
     }
     public void setSubtaskId(ArrayList<Integer> subtaskId) {
         if (subtaskId == null) {
@@ -52,9 +52,9 @@ public class Epic extends Task {
                 ", description='" + description + '\'' +
                 ", status=" + status;
         if (subtaskId == null) {
-            result = result + "subtaskId=null";
+            result = result + ", subtaskId=null";
         } else {
-            result = result + "subtaskId=" + subtaskId + '\'';
+            result = result + ", subtaskId=" + subtaskId + '\'';
         }
         return result + "}";
     }
