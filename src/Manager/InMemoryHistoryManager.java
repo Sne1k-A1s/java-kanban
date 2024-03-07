@@ -49,7 +49,7 @@ public class InMemoryHistoryManager implements HistoryManager{
             } else if (head == node && !(tail == node)) {
                 head = next;
                 head.prev = null;
-            } else if (!(head == node) && tail == node) {
+            } else if (head != node && tail == node) {
                 tail = prev;
                 tail.next = null;
             } else {

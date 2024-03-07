@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HistoryManagerTest {
    static InMemoryTaskManager taskManager = new InMemoryTaskManager();
-
 //убедитесь, что задачи, добавляемые в HistoryManager, сохраняют предыдущую версию задачи и её данных.
     @Test
     void checkingForSavingTasks() {

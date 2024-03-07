@@ -26,6 +26,7 @@ class SubtaskTest {
         Subtask subtaskId = taskManager.getSubtask(id);
         int id1 = taskManager.getId();
         Subtask subtaskId1 = taskManager.getSubtask(id1);
+
         assertSame(subtaskId, subtaskId1);
     }
     @Test

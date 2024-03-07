@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EpicTest {
     InMemoryTaskManager taskManager = new InMemoryTaskManager();
-
     //Проверка на равенство Эпиков через ID
     @Test
     void areTheIdsOfTheEpicsEqual() {
