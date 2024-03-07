@@ -95,10 +95,16 @@ public class InMemoryTaskManager implements TaskManager {
     }
     @Override
     public void deleteTask() {
+        for (Integer Id : tasks.keySet()) {
+            historyManager.remove(Id);
+        }
         tasks.clear();
     }
     @Override
     public void deleteSubtask() {
+        for (Integer Id : subtasks.keySet()) {
+            historyManager.remove(Id);
+        }
         subtasks.clear();
         for (Integer id : epics.keySet()) {
                 epics.get(id).cleanSubtaskId();
@@ -107,14 +113,16 @@ public class InMemoryTaskManager implements TaskManager {
     }
     @Override
     public void deleteEpic() {
+        deleteSubtask();
         for (Integer id : epics.keySet()) {
-                epics.get(id).cleanSubtaskId();
+            historyManager.remove(id);
         }
         subtasks.clear();
         epics.clear();
     }
     @Override
     public void deleteTask(int id) {
+        historyManager.remove(id);
         tasks.remove(id);
     }
     @Override
@@ -123,15 +131,18 @@ public class InMemoryTaskManager implements TaskManager {
         epics.get(idEpic).removeSubtaskId(id);
         subtasks.remove(id);
         updateStatusOfEpic(epics.get(idEpic));
+        historyManager.remove(id);
     }
     @Override
     public void deleteEpic(int id) {
         Epic epic = epics.get(id);
         for (Integer idSubtask : epic.getSubtaskId()) {
             subtasks.remove(idSubtask);
+            historyManager.remove(idSubtask);
         }
         epic.cleanSubtaskId();
         epics.remove(id);
+        historyManager.remove(id);
     }
     @Override
     public ArrayList<Subtask> getEpicSubtask(int epicId) {
@@ -142,13 +153,13 @@ public class InMemoryTaskManager implements TaskManager {
         }
         return subtaskArrayList;
     }
-    @Override
+
     public Subtask getSubtask(Integer id) {
         Subtask subtask = subtasks.get(id);
         return subtask;
     }
 
-    public void updateStatusOfEpic(Epic epic) {
+    private void updateStatusOfEpic(Epic epic) {
 
         boolean isStatusNew = true;
         boolean isStatusDone = true;

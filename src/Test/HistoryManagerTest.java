@@ -1,5 +1,6 @@
 package Test;
 
+import Entity.Epic;
 import Entity.Status;
 import Entity.Task;
 import Manager.InMemoryTaskManager;
@@ -17,9 +18,14 @@ class HistoryManagerTest {
     void checkingForSavingTasks() {
         Task task = new Task("Имя", "Описание", Status.NEW);
         int id = taskManager.addNewTask(task);
+        Task task1 = new Task("Имя1", "Описание", Status.NEW);
+        int id1 = taskManager.addNewTask(task1);
 
         taskManager.getTask(id);
+        taskManager.getTask(id1);
         taskManager.getTask(id);
+        taskManager.getTask(id1);
+        System.out.println(taskManager.getHistory());
 
         assertEquals(2, taskManager.getHistory().size());
     }

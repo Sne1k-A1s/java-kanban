@@ -41,4 +41,22 @@ class EpicTest {
 
         assertEquals(list, epic.getSubtaskId());
     }
+
+    @Test
+    void whenDeletingAEpicSubtaskTheIdIsAlsoDeleted() {
+        Epic epic = new Epic("Имя", "Описание", Status.NEW);
+        taskManager.addNewEpic(epic);
+        int epicId = taskManager.getId();
+
+        Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, epicId);
+        taskManager.addNewSubtask(subtask);
+        int subtaskId = taskManager.getId();
+
+        Subtask subtask1 = new Subtask("Имя1", "Описание1", Status.NEW, epicId);
+        taskManager.addNewSubtask(subtask1);
+
+        taskManager.deleteSubtask(subtaskId);
+
+        assertEquals(taskManager.getSubtasks(), taskManager.getEpicSubtask(epicId));
+    }
 }
