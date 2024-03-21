@@ -1,5 +1,7 @@
 package Entity;
 
+import Manager.TaskType;
+
 import java.util.Objects;
 
 public class Subtask extends Task {
@@ -13,6 +15,16 @@ public class Subtask extends Task {
     public Subtask(String name, String description, Status status, int epicId) {
         super(name, description, status);
         this.epicId = epicId;
+    }
+
+    public Subtask(Integer id, TaskType type, String name, String description, Status status, int epicId) {
+        super(id, type, name, description, status);
+        this.epicId = epicId;
+    }
+
+    @Override
+    public TaskType getType() {
+        return TaskType.SUBTASK;
     }
 
     public Integer getEpicId() {

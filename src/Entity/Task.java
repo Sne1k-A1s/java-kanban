@@ -1,7 +1,10 @@
 package Entity;
 
+import Manager.TaskType;
+
 import java.util.Objects;
 public class Task {
+    protected TaskType type;
     protected String name;
     protected String description;
     protected Integer id;
@@ -19,6 +22,23 @@ public class Task {
         this.description = description;
         this.status = status;
     }
+
+    public Task(Integer id, TaskType type, String name, String description, Status status) {
+        this.id = id;
+        this.type = type;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+    }
+
+    public TaskType getType() {
+        return TaskType.TASK;
+    }
+
+    public Integer getEpicId() {
+        return 0;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -43,6 +63,7 @@ public class Task {
     public void setStatus(Status status) {
         this.status = status;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
