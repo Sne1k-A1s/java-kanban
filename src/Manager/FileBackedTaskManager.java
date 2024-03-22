@@ -12,7 +12,7 @@ import java.util.*;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
-    private static Path path;
+    private Path path;
 
     public FileBackedTaskManager(Path path) {
         this.path = path;
@@ -37,21 +37,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         int id = super.addNewEpic(epic);
         save();
         return id;
-    }
-
-    @Override
-    public ArrayList<Task> getTasks() {
-        return super.getTasks();
-    }
-
-    @Override
-    public ArrayList<Subtask> getSubtasks() {
-        return super.getSubtasks();
-    }
-
-    @Override
-    public ArrayList<Epic> getEpics() {
-        return super.getEpics();
     }
 
     @Override
@@ -160,12 +145,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     private String toString(Task task) {
-        if (task.getEpicId() == 0) {
+        if (task.getType() == null) {
             return task.getId() + "," + task.getType() + "," + task.getName() + "," + task.getStatus() + ","
                     + task.getDescription() + "\n";
         }
         return task.getId() + "," + task.getType() + "," + task.getName() + "," + task.getStatus() + ","
-                + task.getDescription() + "," + task.getEpicId() + "\n";
+                + task.getDescription() + "," + task.getType() + "\n";
     }
 
     public static String historyToString(HistoryManager manager) {
@@ -244,7 +229,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                         subtask = (Subtask) task;
                         Integer epicId = subtask.getEpicId();
                         taskManagers.subtasks.put(subtask.getId(), subtask);
-                        taskManagers.epics.get(epicId).addSubtaskId(subtask.getId());
+                        Epic epicNotNull = taskManagers.epics.get(epicId);
+                        if (epicNotNull != null) {
+                            epicNotNull.addSubtaskId(subtask.getId());
+                        }
                         if (subtask.getId() > maxId) {
                             maxId = subtask.getId();
                         }
@@ -254,18 +242,18 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             taskManagers.generateId = maxId;
             List<Integer> idTasks = new ArrayList<>(historyFromString(lines[lines.length - 1]));
             for (Integer id : idTasks) {
-                if (taskManagers.epics.containsKey(id)) {
+               if (taskManagers.epics.get(id) != null) {
                     taskManagers.historyManager.add(taskManagers.epics.get(id));
-                } else if (taskManagers.subtasks.containsKey(id)) {
+                } else if (taskManagers.subtasks.get(id) != null) {
                     taskManagers.historyManager.add(taskManagers.subtasks.get(id));
-                } else {
+                } else if (taskManagers.tasks.get(id) != null) {
                     taskManagers.historyManager.add(taskManagers.tasks.get(id));
                 }
             }
         }
         return taskManagers;
     }
-
+// Мне лучше удалить папку sources и файл в ней ? Я добал ее в игнор, но она уже есть на github, как лучше поступить?
     public static String readFileContentsOrNull(String path) {
         try {
             return Files.readString(Path.of(path));

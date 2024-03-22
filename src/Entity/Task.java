@@ -35,10 +35,6 @@ public class Task {
         return TaskType.TASK;
     }
 
-    public Integer getEpicId() {
-        return 0;
-    }
-
     public Integer getId() {
         return id;
     }
