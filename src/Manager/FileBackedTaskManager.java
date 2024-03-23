@@ -145,12 +145,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     private String toString(Task task) {
-        if (task.getType() == null) {
+        if (task.getType() == TaskType.SUBTASK) {
+            Subtask subtask = (Subtask) task;
             return task.getId() + "," + task.getType() + "," + task.getName() + "," + task.getStatus() + ","
-                    + task.getDescription() + "\n";
+                    + task.getDescription() + "," + subtask.getEpicId() + "\n";
         }
         return task.getId() + "," + task.getType() + "," + task.getName() + "," + task.getStatus() + ","
-                + task.getDescription() + "," + task.getType() + "\n";
+                + task.getDescription() + "\n";
     }
 
     public static String historyToString(HistoryManager manager) {
@@ -242,18 +243,21 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             taskManagers.generateId = maxId;
             List<Integer> idTasks = new ArrayList<>(historyFromString(lines[lines.length - 1]));
             for (Integer id : idTasks) {
-               if (taskManagers.epics.get(id) != null) {
-                    taskManagers.historyManager.add(taskManagers.epics.get(id));
-                } else if (taskManagers.subtasks.get(id) != null) {
-                    taskManagers.historyManager.add(taskManagers.subtasks.get(id));
-                } else if (taskManagers.tasks.get(id) != null) {
-                    taskManagers.historyManager.add(taskManagers.tasks.get(id));
+                var epic = taskManagers.epics.get(id);
+                var subtask = taskManagers.subtasks.get(id);
+                var task = taskManagers.tasks.get(id);
+               if (epic != null) {
+                    taskManagers.historyManager.add(epic);
+                } else if (subtask != null) {
+                    taskManagers.historyManager.add(subtask);
+                } else if (task != null) {
+                    taskManagers.historyManager.add(task);
                 }
             }
         }
         return taskManagers;
     }
-// Мне лучше удалить папку sources и файл в ней ? Я добал ее в игнор, но она уже есть на github, как лучше поступить?
+
     public static String readFileContentsOrNull(String path) {
         try {
             return Files.readString(Path.of(path));
