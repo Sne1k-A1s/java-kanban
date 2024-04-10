@@ -5,10 +5,12 @@ import Entity.Status;
 import Entity.Subtask;
 import Entity.Task;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeSet;
+import java.time.LocalDateTime;
 
 public class InMemoryTaskManager implements TaskManager {
     protected final HashMap<Integer, Task> tasks = new HashMap<>();
@@ -23,8 +25,8 @@ public class InMemoryTaskManager implements TaskManager {
         final int id = ++generateId;
 
         task.setId(id);
-        if ((task.getStartTime() != null) && (getPrioritizedTasks().contains(task))) {
-            System.out.println("Задача не создана, время задач пересекаються");
+        if ((task.getStartTime() != null) && (getBooleanAsks(task))) {
+            System.out.println("Задача не создана, время задач пересекаются");
             return --generateId;
         }
 
@@ -36,8 +38,8 @@ public class InMemoryTaskManager implements TaskManager {
     public int addNewSubtask(Subtask subtask) {
         final int id = ++generateId;
 
-        if ((subtask.getStartTime() != null) && (getPrioritizedTasks().contains(subtask))) {
-            System.out.println("Задача не создана, время задач пересекаються");
+        if ((subtask.getStartTime() != null) && (getBooleanAsks(subtask))) {
+            System.out.println("Задача не создана, время задач пересекаются");
             return --generateId;
         }
         subtask.setId(id);
@@ -167,6 +169,7 @@ public class InMemoryTaskManager implements TaskManager {
         for (Integer id : epics.keySet()) {
                 epics.get(id).cleanSubtaskId();
                 updateStatusOfEpic(epics.get(id));
+
         }
     }
 
@@ -195,6 +198,7 @@ public class InMemoryTaskManager implements TaskManager {
         subtasks.remove(id);
         updateStatusOfEpic(epics.get(idEpic));
         historyManager.remove(id);
+        updateTimeEpic(epics.get(id));
     }
 
     @Override
@@ -253,25 +257,32 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public Boolean getBooleanAsks(Task task) {
-        Boolean isTask = true;
-        for (Task taskPrioritized : treeSet) {
-            if (task.getStringStartTime().equals(taskPrioritized.getStringStartTime())) {
-                isTask = false;
+        LocalDateTime taskEndTime = task.getEndTime();
+        LocalDateTime taskStartTime = task.getStartTime();
+        if (getPrioritizedTasks().isEmpty() || taskEndTime == null) return false;
+        for (Task prioritizedTask : getPrioritizedTasks()) {
+            if (task.equals(prioritizedTask)) continue;
+            LocalDateTime prioritizedTaskStartTime = prioritizedTask.getStartTime();
+            LocalDateTime prioritizedTaskEndTime = prioritizedTask.getEndTime();
+            if (!(prioritizedTaskStartTime == null) && !(taskStartTime == null) &&
+                    taskEndTime.isAfter(prioritizedTaskStartTime) &&
+                    taskStartTime.isBefore(prioritizedTaskEndTime)) {
+                return true;
             }
         }
-        return isTask;
+        return false;
     }
 
-    private void updateTimeEpic(Epic epic) {
+    public void updateTimeEpic(Epic epic) {
         if (epic.getStartTime() != null) {
-            for (Integer idSubtask : epic.getSubtaskId()) {
-                if (epic.getStartTime().isAfter(subtasks.get(idSubtask).getStartTime())) {
-                    epic.setDuration(subtasks.get(idSubtask).getDuration());
-                    epic.setStartTime(subtasks.get(idSubtask).getStartTime());
+            for (Integer id : epic.getSubtaskId()) {
+                if (epic.getStartTime().isAfter(subtasks.get(id).getStartTime())) {
+                    epic.setStartTime(subtasks.get(id).getStartTime());
                 }
-                if (epic.getEndTime().isBefore(subtasks.get(idSubtask).getEndTime())) {
-                    epic.setEndTime(subtasks.get(idSubtask).getEndTime());
+                if (epic.getEndTime().isBefore(subtasks.get(id).getEndTime())) {
+                    epic.setEndTime(subtasks.get(id).getEndTime());
                 }
+                epic.setDuration(Duration.between(epic.getStartTime(), epic.getEndTime()));
             }
         }
     }
