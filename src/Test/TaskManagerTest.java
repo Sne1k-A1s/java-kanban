@@ -189,7 +189,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, mm, time, epicId);
         taskManager.addNewSubtask(subtask);
 
-        Subtask subtask1 = new Subtask("Имя", "Описание", Status.NEW, mm, time.plusMinutes(mm), epicId);
+        Subtask subtask1 = new Subtask("Имя", "Описание", Status.NEW, mm, time.plusMinutes(20), epicId);
         taskManager.addNewSubtask(subtask1);
 
         taskManager.deleteEpic();

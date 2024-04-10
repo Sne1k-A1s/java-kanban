@@ -37,7 +37,7 @@ class TaskTest {
         taskManager.addNewSubtask(subtask11);
 
         Subtask subtask12 = new Subtask("субстаск2 эпика1", "задача субтаска2", Status.NEW,
-                30, time.plusMinutes(78), epicId2);
+                30, time.plusMinutes(30), epicId2);
         taskManager.addNewSubtask(subtask12);
 
         Subtask subtask14 = new Subtask("субстаск5 эпика5", "задача субтаска5", Status.NEW,
@@ -45,8 +45,9 @@ class TaskTest {
         taskManager.addNewSubtask(subtask14);
 
         Subtask subtask13 = new Subtask("субстаск3 эпика1", "задача субтаска3", Status.NEW,
-                30, time.plusMinutes(47), epicId2);
-        taskManager.addNewSubtask(subtask13);
+                30, time.plusMinutes(60), epicId2);
+        int id = taskManager.addNewSubtask(subtask13);
+        taskManager.deleteSubtask(id);
 
         System.out.println(taskManager.getEpics());
         System.out.println(taskManager.getSubtasks());

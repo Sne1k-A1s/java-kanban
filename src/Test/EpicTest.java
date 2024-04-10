@@ -50,7 +50,7 @@ class EpicTest {
         taskManager.addNewEpic(epic);
         int epicId = taskManager.getId();
 
-        Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, mm, time, epicId);
+        Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, 20, time, epicId);
         taskManager.addNewSubtask(subtask);
         int subtaskId = taskManager.getId();
 
@@ -60,5 +60,6 @@ class EpicTest {
         taskManager.deleteSubtask(subtaskId);
 
         assertEquals(taskManager.getSubtasks(), taskManager.getEpicSubtask(epicId));
+        System.out.println(taskManager.getEpics());
     }
 }
