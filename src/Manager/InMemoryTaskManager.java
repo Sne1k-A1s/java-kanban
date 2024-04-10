@@ -44,16 +44,18 @@ public class InMemoryTaskManager implements TaskManager {
         }
         subtask.setId(id);
         int epicId = subtask.getEpicId();
-        Epic epic = epics.get(epicId);
-        epic.addSubtaskId(id);
-        subtasks.put(id, subtask);
-        if (subtask.getStartTime() != null) {
-            if (epic.getSubtaskId().size() == 1) {
-                epic.setDuration(subtask.getDuration());
-                epic.setStartTime(subtask.getStartTime());
-                epic.setEndTime(subtask.getEndTime());
-            } else {
-                updateTimeEpic(epics.get(epicId));
+        if (epics.get(epicId) != null) {
+            Epic epic = epics.get(epicId);
+            epic.addSubtaskId(id);
+            subtasks.put(id, subtask);
+            if (subtask.getStartTime() != null) {
+                if (epic.getSubtaskId().size() == 1) {
+                    epic.setDuration(subtask.getDuration());
+                    epic.setStartTime(subtask.getStartTime());
+                    epic.setEndTime(subtask.getEndTime());
+                } else {
+                    updateTimeEpic(epics.get(epicId));
+                }
             }
         }
         return id;
@@ -273,6 +275,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     public void updateTimeEpic(Epic epic) {
         if (epic.getStartTime() != null) {
+            int ids = epic.getSubtaskId().getFirst();
+            epic.setStartTime(subtasks.get(ids).getStartTime());
+            epic.setEndTime(subtasks.get(ids).getStartTime());
             for (Integer id : epic.getSubtaskId()) {
                 if (epic.getStartTime().isAfter(subtasks.get(id).getStartTime())) {
                     epic.setStartTime(subtasks.get(id).getStartTime());
