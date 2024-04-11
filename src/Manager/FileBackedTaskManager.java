@@ -208,8 +208,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         String name = lineTask[2];
         String description = lineTask[3];
         Status status = Status.valueOf(lineTask[4]);
-        Integer duration = lineTask.length > 6 ? Integer.valueOf(lineTask[5]) : null;
-        LocalDateTime startTime = lineTask.length > 6 ? LocalDateTime.parse(lineTask[6], formatter) : null;
+        Integer duration = lineTask[5] != null ? Integer.valueOf(lineTask[5]) : null;
+        LocalDateTime startTime = lineTask[6] != null ? LocalDateTime.parse(lineTask[6], formatter) : null;
 
         switch (type) {
             case TASK:
