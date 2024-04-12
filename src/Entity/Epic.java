@@ -2,26 +2,22 @@ package Entity;
 
 import Manager.TaskType;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Epic extends Task {
     protected ArrayList<Integer> subtaskId = new ArrayList<>();
-    protected LocalDateTime endTime;
 
-    public Epic(Integer id, TaskType type, String name, String description, Status status,
-                Integer duration, LocalDateTime startTime, LocalDateTime endTime) {
-        super(id, type, name, description, status, duration, startTime);
-        this.endTime = endTime;
+    public Epic(Integer id, String name, String description, Status status) {
+        super(id, name, description, status);
+    }
+
+    public Epic(String name, String description, Status status) {
+        super(name, description, status);
     }
 
     public Epic(Integer id, TaskType type, String name, String description, Status status) {
         super(id, type, name, description, status);
-    }
-
-    public Epic(String name, String description, Status status, Integer duration, LocalDateTime startTime) {
-        super(name, description, status, duration, startTime);
     }
 
     @Override
@@ -49,26 +45,17 @@ public class Epic extends Task {
     public void removeSubtaskId(Integer id) {
         subtaskId.remove(id);
     }
-
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Epic epic = (Epic) o;
-        return Objects.equals(subtaskId, epic.subtaskId) && Objects.equals(endTime, epic.endTime);
+        return Objects.equals(subtaskId, epic.subtaskId);
     }
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), subtaskId, endTime);
+        return Objects.hash(super.hashCode(), subtaskId);
     }
     @Override
     public String toString() {
@@ -80,9 +67,6 @@ public class Epic extends Task {
             result = result + ", subtaskId=null";
         } else {
             result = result + ", subtaskId=" + subtaskId + '\'';
-        }
-        if (startTime != null) {
-            result = result + ", duration='" + duration.toMinutes() + ", startTime='" + startTime.format(formatter);
         }
         return result + "}";
     }

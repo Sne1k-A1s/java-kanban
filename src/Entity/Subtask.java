@@ -2,26 +2,23 @@ package Entity;
 
 import Manager.TaskType;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Subtask extends Task {
     protected int epicId;
 
+    public Subtask(Integer id, String name, String description, Status status, int epicId) {
+        super(id, name, description, status);
+        this.epicId = epicId;
+    }
+
+    public Subtask(String name, String description, Status status, int epicId) {
+        super(name, description, status);
+        this.epicId = epicId;
+    }
+
     public Subtask(Integer id, TaskType type, String name, String description, Status status, int epicId) {
         super(id, type, name, description, status);
-        this.epicId = epicId;
-    }
-
-    public Subtask(Integer id, TaskType type, String name, String description, Status status,
-                   Integer duration, LocalDateTime startTime, int epicId) {
-        super(id, type, name, description, status, duration, startTime);
-        this.epicId = epicId;
-    }
-
-    public Subtask(String name, String description, Status status,
-                   Integer duration, LocalDateTime startTime, int epicId) {
-        super(name, description, status, duration, startTime);
         this.epicId = epicId;
     }
 
@@ -54,16 +51,13 @@ public class Subtask extends Task {
 
     @Override
     public String toString() {
-        String result = "Models.Subtask{" +
+        return "Models.Subtask{" +
                 "epicId=" + epicId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
-                ", status=" + status;
-        if (startTime != null) {
-            result = result + ", duration='" + duration.toMinutes() + ", startTime=" + startTime.format(formatter);
-        }
-        return result + '}';
+                ", status=" + status +
+                '}';
     }
 }
 

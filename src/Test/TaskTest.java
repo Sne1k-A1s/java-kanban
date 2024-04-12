@@ -5,16 +5,15 @@ import Entity.Task;
 import Manager.InMemoryTaskManager;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
+import java.sql.SQLOutput;
 
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TaskTest {
     InMemoryTaskManager taskManager = new InMemoryTaskManager();
-
     @Test
     void areTheIdsOfTheTasksEqual() {
-        Task task = new Task("Имя", "Описание", Status.NEW, 30, LocalDateTime.now());
+        Task task = new Task("Имя", "Описание", Status.NEW);
         int id = taskManager.addNewTask(task);
 
         Task taskId = taskManager.getTask(id);

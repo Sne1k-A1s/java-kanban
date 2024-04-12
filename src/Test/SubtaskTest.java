@@ -1,29 +1,27 @@
 package Test;
 
-import Entity.Epic;
 import Entity.Status;
+import Entity.Epic;
 import Entity.Subtask;
 import Manager.InMemoryHistoryManager;
 import Manager.InMemoryTaskManager;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SubtaskTest {
     InMemoryTaskManager taskManager = new InMemoryTaskManager();
     InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
-    LocalDateTime time = LocalDateTime.now();
-    int mm = 30;
     @Test
     void areTheIdsOfTheSubtasksEqual() {
-        Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
+        Epic epic = new Epic("Имя", "Описание", Status.NEW);
         int idEpic = taskManager.addNewEpic(epic);
         taskManager.getEpic(idEpic);
+        int ids = taskManager.getId();
 
-        Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, mm, time, idEpic);
+        Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, ids);
         int id = taskManager.addNewSubtask(subtask);
         Subtask subtaskId = taskManager.getSubtask(id);
         int id1 = taskManager.getId();
@@ -33,33 +31,31 @@ class SubtaskTest {
     }
     @Test
     void subtasksCannotBeMadeYourOwnEpic() {
-        Epic epic = new Epic("Имя", "Описание", Status.NEW, mm * 2, time);
+        Epic epic = new Epic("Имя", "Описание", Status.NEW);
         taskManager.addNewEpic(epic);
         int epicId = taskManager.getId();
 
-        Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, mm, time, epicId);
+        Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, epicId);
         taskManager.addNewSubtask(subtask);
         int subtaskId = taskManager.getId();
 
-        LocalDateTime newTime = time.plusMinutes(mm);
-        Subtask subtask1 = new Subtask("Имя", "Описание", Status.NEW, mm, newTime, subtaskId);
+        Subtask subtask1 = new Subtask("Имя", "Описание", Status.NEW, subtaskId);
 
         assertNull(subtask1.getId());
     }
 
     @Test
     void whenDeletingASubtaskTheIdIsAlsoDeleted() {
-        Epic epic = new Epic("Имя", "Описание", Status.NEW, mm * 2, time);
+        Epic epic = new Epic("Имя", "Описание", Status.NEW);
         taskManager.addNewEpic(epic);
         int epicId = taskManager.getId();
 
-        Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, mm, time, epicId);
+        Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, epicId);
         taskManager.addNewSubtask(subtask);
         int subtaskId = taskManager.getId();
 
-        LocalDateTime newTime = time.plusMinutes(mm);
-        Subtask subtask1 = new Subtask("Имя1", "Описание1", Status.NEW,  mm, newTime, epicId);
-        taskManager.addNewSubtask(subtask1);
+        Subtask subtask1 = new Subtask("Имя1", "Описание1", Status.NEW, epicId);
+        taskManager.addNewSubtask(subtask);
 
         taskManager.deleteSubtask(subtaskId);
 
