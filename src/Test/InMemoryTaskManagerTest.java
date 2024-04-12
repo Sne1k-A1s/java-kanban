@@ -7,23 +7,33 @@ import Entity.Task;
 import Manager.InMemoryTaskManager;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class InMemoryTaskManagerTest {
+class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     InMemoryTaskManager taskManager = new InMemoryTaskManager();
+    LocalDateTime time = LocalDateTime.now();
+    int mm = 30;
+
+    @Override
+    public InMemoryTaskManager createTaskManager() {
+        return new InMemoryTaskManager();
+    }
 
     @Test
     void addingTasksOfDifferentTypesAndSearchingByID() {
-        Task task = new Task("Имя", "Описание", Status.NEW);
+        Task task = new Task("Имя", "Описание", Status.NEW, mm, time);
         taskManager.addNewTask(task);
         Task task1 = taskManager.getTask(1);
 
-        Epic epic = new Epic("Имя", "Описание", Status.NEW);
+        LocalDateTime newTime = time.plusMinutes(mm);
+        Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, newTime);
         int epicId = taskManager.addNewEpic(epic);
         taskManager.getId();
         Epic epic1 = taskManager.getEpic(2);
 
-        Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, epicId);
+        Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, mm, newTime, epicId);
         taskManager.addNewSubtask(subtask);
         taskManager.getId();
         Subtask subtask1 = taskManager.getSubtask(3);
