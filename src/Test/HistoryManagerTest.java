@@ -24,27 +24,26 @@ class HistoryManagerTest {
     int mm = 30;
 
     @BeforeEach
-    void createHistoryManager() {
+    void createHistoryManager()  {
         historyManager = Managers.getDefaultHistory();
         taskManager = new InMemoryTaskManager();
     }
 
     @Test
-    void checkingForAWorkingInstance() {
+    void checkingForAWorkingInstance()  {
         assertNotNull(Managers.getDefault());
         assertNotNull(Managers.getDefaultHistory());
     }
 
     @Test
-    void add() {
+    void add()  {
         assertEquals(0, taskManager.getHistory().size());
 
         Duration duration = Duration.ofMinutes(mm);
         Task task = new Task("Имя", "Описание", Status.NEW, mm, time);
         int id = taskManager.addNewTask(task);
 
-        LocalDateTime newTime = time.plus(duration);
-        Task task1 = new Task("Имя1", "Описание", Status.NEW, mm, newTime);
+        Task task1 = new Task("Имя1", "Описание", Status.NEW, mm, time.plusMinutes(40));
         int id1 = taskManager.addNewTask(task1);
 
         taskManager.getTask(id);
@@ -57,12 +56,12 @@ class HistoryManagerTest {
     }
 
     @Test
-    void remove() {
+    void remove()  {
         Task task = new Task("Имя", "Описание", Status.NEW, mm, time);
         int taskId = taskManager.addNewTask(task);
         Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time.plusMinutes(mm));
         int epicId = taskManager.addNewEpic(epic);
-        Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, mm, time.plusMinutes(mm), epicId);
+        Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, mm, time.plusMinutes(40), epicId);
         int subtaskId = taskManager.addNewSubtask(subtask);
 
         historyManager.add(task);

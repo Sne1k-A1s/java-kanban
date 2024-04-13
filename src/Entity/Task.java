@@ -2,10 +2,12 @@ package Entity;
 
 import Manager.TaskType;
 
+import javax.swing.border.EmptyBorder;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Task implements Comparable<Task> {
     protected TaskType type;
@@ -13,11 +15,11 @@ public class Task implements Comparable<Task> {
     protected String description;
     protected Integer id;
     protected Status status;
-    protected LocalDateTime startTime;
-    protected Duration duration;
+    protected LocalDateTime  startTime;
+    protected Duration  duration;
     protected final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy,HH:mm");
 
-    public Task(Integer id, TaskType type, String name, String description, Status status) {
+    public Task (Integer id, TaskType type, String name, String description, Status status) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -25,7 +27,8 @@ public class Task implements Comparable<Task> {
         this.status = status;
     }
 
-    public Task(Integer id, String name, String description, Status status, Integer duration, LocalDateTime startTime) {
+    public Task (Integer id, String name, String description, Status status, Integer duration, LocalDateTime startTime)
+    {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -34,7 +37,7 @@ public class Task implements Comparable<Task> {
         this.startTime = startTime;
     }
 
-    public Task(String name, String description, Status status, Integer duration, LocalDateTime startTime) {
+    public Task (String name, String description, Status status, Integer duration, LocalDateTime startTime) {
         this.name = name;
         this.description = description;
         this.status = status;
@@ -42,7 +45,7 @@ public class Task implements Comparable<Task> {
         this.startTime = startTime;
     }
 
-    public Task(Integer id, TaskType type, String name, String description, Status status, Integer duration,
+    public Task (Integer id, TaskType type, String name, String description, Status status, Integer duration,
                 LocalDateTime startTime) {
         this.id = id;
         this.type = type;
@@ -57,104 +60,104 @@ public class Task implements Comparable<Task> {
     public int compareTo(Task o) {
         if (this.getStartTime() == null){
             return 1;
-        }
+        } // а что тут не так?
         return this.getStartTime().compareTo(o.getStartTime());
     }
 
-    public TaskType getType() {
+    public TaskType getType()  {
         return TaskType.TASK;
     }
 
-    public Integer getId() {
+    public Integer getId()  {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Integer id)  {
         this.id = id;
     }
 
-    public String getName() {
+    public String getName()  {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)  {
         this.name = name;
     }
 
-    public String getDescription() {
+    public String getDescription()  {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(String description)  {
         this.description = description;
     }
 
-    public Status getStatus() {
+    public Status getStatus()  {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(Status status)  {
         this.status = status;
     }
 
-    public Duration getDuration() {
+    public Duration getDuration()  {
         return duration;
     }
 
-    public void setDuration(Duration duration) {
+    public void setDuration(Duration duration)  {
         this.duration = duration;
     }
 
-    public LocalDateTime getStartTime() {
+    public LocalDateTime getStartTime()  {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(LocalDateTime startTime)  {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public LocalDateTime getEndTime()  {
         return startTime.plus(duration);
-    }
+    } // а здесь что не так?
 
-    public String getStringStartTime() {
+    public String getStringStartTime()  {
         return startTime.format(formatter);
     }
 
-    public void setStringStartTime(String startTime) {
+    public void setStringStartTime(String startTime)  {
         this.startTime = LocalDateTime.parse(startTime, formatter);
     }
 
-    public String getStringEndTime() {
+    public String getStringEndTime()  {
         return startTime.plus(duration).format(formatter);
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)  {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
         return Objects.equals(name, task.name) &&
                 Objects.equals(description, task.description) &&
                 id.equals(task.id) &&
-                status == task.status &&
+                status == task.status  &&
                 Objects.equals(startTime, task.startTime) &&
                 Objects.equals(duration, task.duration);
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()  {
         return Objects.hash(name, description, id, status, duration, startTime);
     }
 
     @Override
-    public String toString() {
+    public String toString()  {
         String result = "Models.Task{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
                 ", status=" + status;
-        if(startTime != null) {
+        if(startTime != null)  {
             result = result + ", duration='" + duration.toMinutes() + '\'' +
                     ", startTime='" + startTime.format(formatter);
         }

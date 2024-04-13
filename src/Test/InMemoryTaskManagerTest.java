@@ -17,23 +17,22 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     int mm = 30;
 
     @Override
-    public InMemoryTaskManager createTaskManager() {
+    public InMemoryTaskManager createTaskManager()  {
         return new InMemoryTaskManager();
     }
 
     @Test
-    void addingTasksOfDifferentTypesAndSearchingByID() {
+    void addingTasksOfDifferentTypesAndSearchingByID()  {
         Task task = new Task("Имя", "Описание", Status.NEW, mm, time);
         taskManager.addNewTask(task);
         Task task1 = taskManager.getTask(1);
 
-        LocalDateTime newTime = time.plusMinutes(mm);
-        Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, newTime);
+        Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
         int epicId = taskManager.addNewEpic(epic);
         taskManager.getId();
         Epic epic1 = taskManager.getEpic(2);
 
-        Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, mm, newTime, epicId);
+        Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, mm, time.plusMinutes(40), epicId);
         taskManager.addNewSubtask(subtask);
         taskManager.getId();
         Subtask subtask1 = taskManager.getSubtask(3);

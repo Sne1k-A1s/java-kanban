@@ -18,12 +18,12 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     private File file = new File(String.valueOf(path));
 
     @Override
-    public FileBackedTaskManager createTaskManager() {
+    public FileBackedTaskManager createTaskManager()  {
         return new FileBackedTaskManager(path);
     }
 
     @AfterEach
-    public void afterEach() {
+    public void afterEach()  {
         try {
             Files.delete(path);
         } catch (IOException exception) {
@@ -32,7 +32,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     }
 
     @Test
-    public void shouldSaveOfEmptyThrowException() {
+    public void shouldSaveOfEmptyThrowException()  {
         final ManagerSaveException exception = assertThrows(
                 ManagerSaveException.class,
                 () -> {
@@ -43,7 +43,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     }
 
     @Test
-    public void shouldSaveEmptyHistoryThrowException() {
+    public void shouldSaveEmptyHistoryThrowException()  {
         final ManagerSaveException exception = assertThrows(
                 ManagerSaveException.class,
                 () -> {
