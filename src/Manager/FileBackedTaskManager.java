@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy,HH:mm");
     private final Path path;
 
     public FileBackedTaskManager(Path path) {
@@ -204,7 +204,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public static Task fromString(String value)  {
         String[] lineTask = value.split(",", 8);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy,HH:mm");
 
         int id = Integer.valueOf(lineTask[0]);
         TaskType type =  TaskType.valueOf(lineTask[1]);

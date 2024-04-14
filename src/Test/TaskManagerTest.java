@@ -9,9 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 import static Entity.Status.IN_PROGRESS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -112,7 +110,7 @@ public abstract class TaskManagerTest<T extends TaskManager>  {
     }
 
     @Test
-    void updateEpic()  {
+    void updateEpic() {
         Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
         int epicId = taskManager.addNewEpic(epic);
 
@@ -126,7 +124,7 @@ public abstract class TaskManagerTest<T extends TaskManager>  {
     }
 
     @Test
-    void updateSubtask()  {
+    void updateSubtask() {
         Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
         final int epicId = taskManager.addNewEpic(epic);
 
@@ -306,7 +304,7 @@ public abstract class TaskManagerTest<T extends TaskManager>  {
         Task task3 = new Task("Имя", "Описание", Status.NEW, mm, time.plusMinutes(93));
         taskManager.addNewTask(task3);
 
-        TreeSet<Task> list = taskManager.getPrioritizedTasks();
+        SortedSet<Task> list = taskManager.getPrioritizedTasks();
         TreeSet<Task> listSample = new TreeSet<>();
         listSample.add(task);
         listSample.add(task2);

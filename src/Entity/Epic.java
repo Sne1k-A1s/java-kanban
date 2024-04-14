@@ -11,14 +11,26 @@ public class Epic extends Task {
     protected ArrayList<Integer> subtaskId =  new ArrayList<>();
     protected LocalDateTime endTime;
 
+    public Epic (String name, String description, Status status) {
+        super(name, description, status);
+    }
+
+    public Epic (Integer id, String name, String description, Status status) {
+        super(id, name, description, status);
+    }
+
+    public Epic (Integer id, TaskType type, String name, String description, Status status) {
+        super(id, type, name, description, status);
+    }
+
     public Epic (Integer id, TaskType type, String name, String description, Status status,
                 Integer duration, LocalDateTime startTime, LocalDateTime endTime) {
         super(id, type, name, description, status, duration, startTime);
         this.endTime = endTime;
     }
 
-    public Epic (Integer id, TaskType type, String name, String description, Status status) {
-        super(id, type, name, description, status);
+    public Epic (Integer id, String name, String description, Status status, Integer duration, LocalDateTime startTime) {
+        super(id, name, description, status, duration, startTime);
     }
 
     public Epic (String name, String description, Status status, Integer duration, LocalDateTime startTime) {
@@ -74,7 +86,8 @@ public class Epic extends Task {
     @Override
     public String toString()  {
         String result = "Models.Epic{" +
-                "name='" + name + '\'' +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", status=" + status;
         if (subtaskId == null) {
@@ -82,7 +95,7 @@ public class Epic extends Task {
         } else {
             result = result + ", subtaskId=" + subtaskId + '\'';
         }
-        if (startTime != null)  {
+        if (startTime != null && duration != null)  {
             result = result + ", duration='" + duration.toMinutes() + ", startTime='" + startTime.format(formatter) +
             ", endTime='" + endTime.format(formatter);
         }

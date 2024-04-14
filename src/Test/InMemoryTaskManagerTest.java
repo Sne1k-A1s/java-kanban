@@ -41,4 +41,25 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         assertSame(epic, epic1);
         assertSame(subtask, subtask1);
     }
+
+    @Test
+    void updatingTasks()  {
+        Task task = new Task("Имя", "Описание", Status.NEW, mm, time);
+        taskManager.addNewTask(task);
+        Task task1 = taskManager.getTask(1);
+
+        Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
+        int epicId = taskManager.addNewEpic(epic);
+        taskManager.getId();
+        Epic epic1 = taskManager.getEpic(2);
+
+        Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, mm, time.plusMinutes(40), epicId);
+        taskManager.addNewSubtask(subtask);
+        taskManager.getId();
+        Subtask subtask1 = taskManager.getSubtask(3);
+
+        assertSame(task, task1);
+        assertSame(epic, epic1);
+        assertSame(subtask, subtask1);
+    }
 }

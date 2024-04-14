@@ -2,12 +2,10 @@ package Entity;
 
 import Manager.TaskType;
 
-import javax.swing.border.EmptyBorder;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
-import java.util.Optional;
 
 public class Task implements Comparable<Task> {
     protected TaskType type;
@@ -19,9 +17,14 @@ public class Task implements Comparable<Task> {
     protected Duration  duration;
     protected final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy,HH:mm");
 
-    public Task (Integer id, TaskType type, String name, String description, Status status) {
+    public Task (String name, String description, Status status) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+    }
+
+    public Task (Integer id, String name, String description, Status status) {
         this.id = id;
-        this.type = type;
         this.name = name;
         this.description = description;
         this.status = status;
@@ -45,6 +48,13 @@ public class Task implements Comparable<Task> {
         this.startTime = startTime;
     }
 
+    public Task(Integer id, TaskType type, String name, String description, Status status) {
+        this.id = id;
+        this.type = type;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+    }
     public Task (Integer id, TaskType type, String name, String description, Status status, Integer duration,
                 LocalDateTime startTime) {
         this.id = id;
@@ -58,9 +68,6 @@ public class Task implements Comparable<Task> {
 
     @Override
     public int compareTo(Task o) {
-        if (this.getStartTime() == null){
-            return 1;
-        } // а что тут не так?
         return this.getStartTime().compareTo(o.getStartTime());
     }
 
@@ -109,7 +116,13 @@ public class Task implements Comparable<Task> {
     }
 
     public LocalDateTime getStartTime()  {
-        return startTime;
+        LocalDateTime start = null;
+        try {
+            start = startTime;
+        } catch (NullPointerException e) {
+            System.out.println("Невозможно получить время начало задачи");
+        }
+        return start;
     }
 
     public void setStartTime(LocalDateTime startTime)  {
@@ -117,11 +130,24 @@ public class Task implements Comparable<Task> {
     }
 
     public LocalDateTime getEndTime()  {
-        return startTime.plus(duration);
-    } // а здесь что не так?
+        LocalDateTime end = null;
+        try {
+            end = startTime.plus(duration);
+        } catch (NullPointerException e) {
+            System.out.println("Невозможно получить время завершения задачи, не указано время начало задачи," +
+                    " или продолжительность");
+        }
+        return end;
+    }
 
     public String getStringStartTime()  {
-        return startTime.format(formatter);
+        String startString = null;
+        try {
+            startString = startTime.format(formatter);
+        } catch (NullPointerException e) {
+            System.out.println("Невозможно получить время начало задачи");
+        }
+        return startString;
     }
 
     public void setStringStartTime(String startTime)  {
@@ -129,7 +155,14 @@ public class Task implements Comparable<Task> {
     }
 
     public String getStringEndTime()  {
-        return startTime.plus(duration).format(formatter);
+        String endString = null;
+        try {
+            LocalDateTime end = startTime.plus(duration);
+            endString = end.format(formatter);
+        } catch (NullPointerException e) {
+            System.out.println("Невозможно получить конечное время, не указано начало, или продолжительность");
+        }
+        return endString;
     }
 
     @Override
