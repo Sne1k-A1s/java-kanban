@@ -23,8 +23,8 @@ public class InMemoryTaskManager implements TaskManager {
 
         task.setId(id);
         if ((task.getStartTime() != null) && (getBooleanAsks(task))) {
-            System.out.println("Задача не создана, время задач пересекаются");
-            return --generateId;
+            --generateId;
+            throw new UpdateTaskException("Задача не создана, время задач пересекаются");
         }
         tasks.put(id, task);
         return id;
@@ -32,10 +32,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public int addNewSubtask(Subtask subtask) {
-        final int id = ++generateId;
+       final int id = ++generateId;
             if ((subtask.getStartTime() != null) && (getBooleanAsks(subtask))) {
-                System.out.println("Задача не создана, время задач пересекаются");
-                return --generateId;
+                --generateId;
+                throw new UpdateTaskException("Задача не создана, время задач пересекаются");
         }
         subtask.setId(id);
         int epicId = subtask.getEpicId();
