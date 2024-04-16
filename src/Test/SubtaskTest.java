@@ -14,11 +14,10 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 
 class SubtaskTest {
     InMemoryTaskManager taskManager = new InMemoryTaskManager();
-    InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
     LocalDateTime time = LocalDateTime.now();
     int mm = 30;
     @Test
-    void areTheIdsOfTheSubtasksEqual() {
+    void areTheIdsOfTheSubtasksEqual()  {
         Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
         int idEpic = taskManager.addNewEpic(epic);
         taskManager.getEpic(idEpic);
@@ -32,7 +31,7 @@ class SubtaskTest {
         assertSame(subtaskId, subtaskId1);
     }
     @Test
-    void subtasksCannotBeMadeYourOwnEpic() {
+    void subtasksCannotBeMadeYourOwnEpic()  {
         Epic epic = new Epic("Имя", "Описание", Status.NEW, mm * 2, time);
         taskManager.addNewEpic(epic);
         int epicId = taskManager.getId();
@@ -48,8 +47,8 @@ class SubtaskTest {
     }
 
     @Test
-    void whenDeletingASubtaskTheIdIsAlsoDeleted() {
-        Epic epic = new Epic("Имя", "Описание", Status.NEW, mm * 2, time);
+    void whenDeletingASubtaskTheIdIsAlsoDeleted()  {
+        Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
         taskManager.addNewEpic(epic);
         int epicId = taskManager.getId();
 
@@ -57,8 +56,7 @@ class SubtaskTest {
         taskManager.addNewSubtask(subtask);
         int subtaskId = taskManager.getId();
 
-        LocalDateTime newTime = time.plusMinutes(mm);
-        Subtask subtask1 = new Subtask("Имя1", "Описание1", Status.NEW,  mm, newTime, epicId);
+        Subtask subtask1 = new Subtask("Имя1", "Описание1", Status.NEW,  mm, time.plusMinutes(40), epicId);
         taskManager.addNewSubtask(subtask1);
 
         taskManager.deleteSubtask(subtaskId);

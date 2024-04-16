@@ -9,15 +9,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 import static Entity.Status.IN_PROGRESS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public abstract class TaskManagerTest<T extends TaskManager> {
+public abstract class TaskManagerTest<T extends TaskManager>  {
     T taskManager;
 
     LocalDateTime time = LocalDateTime.now();
@@ -25,12 +23,12 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     public abstract T createTaskManager();
 
     @BeforeEach
-    public void BeforeEach() {
+    public void BeforeEach()  {
         taskManager = createTaskManager();
     }
 
     @Test
-    void addNewTask() {
+    void addNewTask()  {
         Task task = new Task("Имя", "Описание", Status.NEW, mm, time);
         taskManager.addNewTask(task);
 
@@ -42,7 +40,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void addNewEpic() {
+    void addNewEpic()  {
         Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
         taskManager.addNewEpic(epic);
 
@@ -54,7 +52,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void addNewSubtask() {
+    void addNewSubtask()  {
         Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
         int epicId = taskManager.addNewEpic(epic);
 
@@ -69,7 +67,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void getTasks() {
+    void getTasks()  {
         Task task = new Task("Имя", "Описание", Status.NEW, mm, time);
         taskManager.addNewTask(task);
 
@@ -79,7 +77,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void getEpics() {
+    void getEpics()  {
         Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
         taskManager.addNewEpic(epic);
 
@@ -89,7 +87,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void getSubtasks() {
+    void getSubtasks()  {
         Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
         int epicId = taskManager.addNewEpic(epic);
 
@@ -102,7 +100,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void updateTask() {
+    void updateTask()  {
         Task task = new Task("Имя", "Описание", Status.NEW, mm, time);
         taskManager.addNewTask(task);
         task.setStatus(IN_PROGRESS);
@@ -140,7 +138,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void getTask() {
+    void getTask()  {
         Task task = new Task("Имя", "Описание", Status.NEW, mm, time);
         int taskId = taskManager.addNewTask(task);
 
@@ -148,7 +146,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void getSubtask() {
+    void getSubtask()  {
         Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
         int epicId = taskManager.addNewEpic(epic);
 
@@ -159,7 +157,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void getEpic() {
+    void getEpic()  {
         Task task = new Task("Имя", "Описание", Status.NEW, mm, time);
         taskManager.addNewTask(task);
 
@@ -170,11 +168,11 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void deleteTasks() {
+    void deleteTasks()  {
         Task task = new Task("Имя", "Описание", Status.NEW, mm, time);
         taskManager.addNewTask(task);
 
-        Task task1 = new Task("Имя", "Описание", Status.NEW, mm, time.plusMinutes(mm));
+        Task task1 = new Task("Имя", "Описание", Status.NEW, mm, time.plusMinutes(41));
         taskManager.addNewTask(task1);
 
         taskManager.deleteTask();
@@ -182,7 +180,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void deleteEpics() {
+    void deleteEpics()  {
         Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
         int epicId = taskManager.addNewEpic(epic);
 
@@ -198,7 +196,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void deleteSubtasks() {
+    void deleteSubtasks()  {
         Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
         int epicId = taskManager.addNewEpic(epic);
 
@@ -214,11 +212,11 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void deleteTask() {
+    void deleteTask()  {
         Task task = new Task("Имя", "Описание", Status.NEW, mm, time);
         int id = taskManager.addNewTask(task);
 
-        Task task1 = new Task("Имя", "Описание", Status.NEW, mm, time.plusMinutes(mm));
+        Task task1 = new Task("Имя", "Описание", Status.NEW, mm, time.plusMinutes(40));
         taskManager.addNewTask(task1);
 
         taskManager.deleteTask(id);
@@ -226,7 +224,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void deleteEpic() {
+    void deleteEpic()  {
         Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
         int epicId = taskManager.addNewEpic(epic);
 
@@ -239,14 +237,14 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void deleteSubtask() {
+    void deleteSubtask()  {
         Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
         int epicId = taskManager.addNewEpic(epic);
 
         Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, mm, time, epicId);
         int id = taskManager.addNewSubtask(subtask);
 
-        Subtask subtask1 = new Subtask("Имя", "Описание", Status.NEW, mm, time.plusMinutes(mm), epicId);
+        Subtask subtask1 = new Subtask("Имя", "Описание", Status.NEW, mm, time.plusMinutes(40), epicId);
         taskManager.addNewSubtask(subtask1);
 
         taskManager.deleteSubtask(id);
@@ -255,14 +253,14 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void getEpicSubtask() {
+    void getEpicSubtask()  {
         Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
         int epicId = taskManager.addNewEpic(epic);
 
         Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, mm, time, epicId);
         taskManager.addNewSubtask(subtask);
 
-        Subtask subtask1 = new Subtask("Имя", "Описание", Status.NEW, mm, time.plusMinutes(mm), epicId);
+        Subtask subtask1 = new Subtask("Имя", "Описание", Status.NEW, mm, time.plusMinutes(40), epicId);
         taskManager.addNewSubtask(subtask1);
 
         ArrayList<Subtask> subtaskList = taskManager.getEpicSubtask(epicId);
@@ -271,7 +269,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void getHistory() {
+    void getHistory()  {
         Task task = new Task("Имя", "Описание", Status.NEW, mm, time);
         int taskId = taskManager.addNewTask(task);
         taskManager.getTask(taskId);
@@ -280,7 +278,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         int epicId = taskManager.addNewEpic(epic);
         taskManager.getEpic(epicId);
 
-        Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, mm, time.plusMinutes(mm), epicId);
+        Subtask subtask = new Subtask("Имя", "Описание", Status.NEW, mm, time.plusMinutes(40), epicId);
         int subtaskId = taskManager.addNewSubtask(subtask);
         taskManager.getSubtask(subtaskId);
 
@@ -293,20 +291,20 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     }
 
     @Test
-    void getPrioritizedTasks() {
+    void getPrioritizedTasks()  {
         Task task = new Task("Имя", "Описание", Status.NEW, mm, time);
         taskManager.addNewTask(task);
 
-        Task task1 = new Task("Имя", "Описание", Status.NEW, mm, time.plusMinutes(mm * 4));
+        Task task1 = new Task("Имя", "Описание", Status.NEW, mm, time.plusMinutes(31));
         taskManager.addNewTask(task1);
 
-        Task task2 = new Task("Имя", "Описание", Status.NEW, mm, time.plusMinutes(mm * 2));
+        Task task2 = new Task("Имя", "Описание", Status.NEW, mm, time.plusMinutes(62));
         taskManager.addNewTask(task2);
 
-        Task task3 = new Task("Имя", "Описание", Status.NEW, mm, time.plusMinutes(mm * 3));
+        Task task3 = new Task("Имя", "Описание", Status.NEW, mm, time.plusMinutes(93));
         taskManager.addNewTask(task3);
 
-        TreeSet<Task> list = taskManager.getPrioritizedTasks();
+        SortedSet<Task> list = taskManager.getPrioritizedTasks();
         TreeSet<Task> listSample = new TreeSet<>();
         listSample.add(task);
         listSample.add(task2);

@@ -18,7 +18,7 @@ class EpicTest {
     int mm = 30;
     //Проверка на равенство Эпиков через ID
     @Test
-    void areTheIdsOfTheEpicsEqual() {
+    void areTheIdsOfTheEpicsEqual()  {
         Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
         int id = taskManager.addNewEpic(epic);
 
@@ -30,7 +30,7 @@ class EpicTest {
     }
     //объект Epic нельзя добавить в самого себя в виде подзадачи;
     @Test
-    void AddingAnEpicToYourself() {
+    void AddingAnEpicToYourself()  {
         Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
         taskManager.addNewEpic(epic);
         int epicId = taskManager.getId();
@@ -45,7 +45,7 @@ class EpicTest {
     }
 
     @Test
-    void whenDeletingAEpicSubtaskTheIdIsAlsoDeleted() {
+    void whenDeletingAEpicSubtaskTheIdIsAlsoDeleted()  {
         Epic epic = new Epic("Имя", "Описание", Status.NEW, mm, time);
         taskManager.addNewEpic(epic);
         int epicId = taskManager.getId();
