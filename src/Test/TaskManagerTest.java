@@ -172,7 +172,7 @@ public abstract class TaskManagerTest<T extends TaskManager>  {
         Task task = new Task("Имя", "Описание", Status.NEW, mm, time);
         taskManager.addNewTask(task);
 
-        Task task1 = new Task("Имя", "Описание", Status.NEW, mm, time.plusMinutes(mm));
+        Task task1 = new Task("Имя", "Описание", Status.NEW, mm, time.plusMinutes(41));
         taskManager.addNewTask(task1);
 
         taskManager.deleteTask();
